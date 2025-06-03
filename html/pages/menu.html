@@ -1,11 +1,19 @@
-<content id="content">
-  <button>Create Session</button>
-  <button>Join Session</button>
-  <button 
-    hx-get="./pages/collection/create.html" 
-    hx-target="#content"
-    hx-trigger="click"
-    hx-swap="innerHTML"
-    >Create Collection
-  </button>
+<content class="h-screen" id="content" >
+  <div class="h-screen flex items-center justify-center">
+    <button class="menu-tile-style !w-[98vw]">
+      <p>WHO SAID IT!</p>
+    </button>
+    <button class="menu-tile-style">Play</button>
+    <button class="menu-tile-style">Browse Collection</button>
+    <button
+      class="menu-tile-style" 
+      hx-get="./pages/collection/create.html" 
+      hx-target="#content"
+      hx-trigger="click"
+      hx-swap="innerHTML"
+      > 
+      Create Collection
+    </button>
+  </div>
+  
 </content>
