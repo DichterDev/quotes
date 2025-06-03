@@ -1,0 +1,20 @@
+<form>
+    <input name="quote" placeholder="Enter quote"/>
+    <div class="authors">
+        <button class="author">1</button>
+        <button class="author">2</button>
+        <button class="author">3</button>
+        <button class="author">4</button>
+        <button class="author">5</button>
+    </div>
+    <button hx-put="/quotes/collection/quote">Submit</button>
+</form>
+<script>
+    const authors = Array.from(document.getElementsByClassName("author"));
+    authors.forEach(e => {
+        e.addEventListener("click", () => {
+            authors.forEach(_e => { _e.classList.remove("selected"); });
+            e.classList.add("selected")
+        });
+    });
+</script>

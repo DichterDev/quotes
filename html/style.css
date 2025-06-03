@@ -1,0 +1,31 @@
+:root {
+  --bg-color: #ADA8B6;
+  --border-color: #FFEEDB;
+  --primary-color: #4C3B4D;
+  --secondary-color: #DDBDD5;
+  --selected: #5C946E;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+
+  overflow: hidden;
+}
+
+.selected {
+  background-color: var(--selected);
+}
+
+button {
+  border: 1px solid var(--border-color)
+}
+
+content {
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  justify-content: center;
+  flex-direction: column;
+}

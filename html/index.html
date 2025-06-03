@@ -1,0 +1,25 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotes</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+  </style>
+  <link rel="stylesheet" href="./style.css">
+  </style>
+  <!-- HTMX -->
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <script src="https://unpkg.com/htmx-ext-json-enc@2.0.1/json-enc.js"></script>
+  <script src="./scripts/json-enc-custom.js"></script>
+  <script src="scripts/my-json-enc.js"></script>
+</head>
+
+<body>
+  <content id="content" hx-get="./pages/menu.html" hx-trigger="load" hx-swap="outerHTML">
+  </content>
+</body>
+
+</html>
