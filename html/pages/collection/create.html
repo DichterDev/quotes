@@ -1,18 +1,136 @@
-<form hx-post="/submit" hx-target="#result" hx-ext="my-json-enc">
+<form class="" hx-post="/submit" hx-target="#result" hx-ext="my-json-enc">
   <input name="name" placeholder="Enter collection name" required />
-  <input name="desc" placeholder="Enter description" />
-  <div class="authors">
-    <span>Authors:</span>
-    <div name="authors[]">
-      <span name="name">123</span>
-      <span name="name">567</span>
-      <span name="name">89</span>
+  <textarea name="desc" placeholder="Enter description"></textarea>
+  <div class="author-wrapper">
+    <label>Authors:</label>
+    <div class="authors" name="authors[]">
+      <div class="author">
+        <input name="name" placeholder="Name:"/>
+        <button 
+          type="button"
+          hx-on:click="this.closest('.author').remove()"
+          >-
+        </button>
+      </div>
+      <div class="author">
+        <input name="name" placeholder="Name:"/>
+        <button 
+          type="button"
+          hx-on:click="this.closest('.author').remove()"
+          >-
+        </button>
+      </div>
+      <div class="author">
+        <input name="name" placeholder="Name:"/>
+        <button 
+          type="button"
+          hx-on:click="this.closest('.author').remove()"
+          >-
+        </button>
+      </div>
     </div>
-    <button type="none" hx-get="./pages/collection/author.html" hx-target="previous div" hx-swap="beforebegin"
+    <button 
+      class="add-author" 
+      type="none" 
+      hx-get="./pages/collection/author.html" 
+      hx-target="previous div" 
+      hx-swap="beforebegin"
       hx-params="none">+ Author
     </button>
   </div>
-  <button type="submit">Create</button>
+  <button class="create" type="submit">Create</button>
 </form>
+<style> 
+  form {
+    width: 100%;
+    height: auto;
 
-<div id="result"></div>
+    display: flex;
+    flex-direction: column;
+
+    padding: 1em;
+    box-sizing: border-box;
+    gap: 0.5em;
+  }
+
+  input {
+    padding: 0.5em;
+    border: 2px solid gray;
+    border-radius: 0.5em;
+    background-color: lightgray;
+
+    outline: none;
+  }
+
+  textarea {
+    padding: 0.5em;
+    border: 2px solid gray;
+    border-radius: 0.5em;
+    background-color: lightgray;
+
+    outline: none;
+  }
+
+  .author-wrapper {
+    border: 2px solid grey;
+    border-radius: 0.5em;
+
+    padding: 0.5em;
+  }
+
+  .authors {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .author {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    border: 2px solid grey;
+    border-radius: 0.6em;
+    background-color: lightgrey;
+  }
+
+  .author > input {
+    width: 85%;
+    border: 0;
+    border-radius: 0.5em 0em 0em 0.5em;
+    border-right: 0;
+    background-color: initial;
+
+    outline: none;
+  }
+
+  .author > button {
+    width: 10%;
+    background-color: red;
+    border-radius: 0.5em;
+    border: 0;
+
+    color: white;
+  }
+
+  .add-author {
+    color: grey;
+    width: 100%;
+    border: 2px dotted grey;
+    border-radius: 0.5em;
+
+    padding: 0.5em;
+  }
+
+  .create {
+    width: 100%;
+    border: 2px solid darkgreen;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    background-color: lightgreen;
+    color: darkgreen;
+  }
+</style>
