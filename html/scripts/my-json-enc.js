@@ -21,32 +21,11 @@
                 xhr.overrideMimeType('text/json');
             }
 
-            let encoded_parameters = encodingAlgorithm(parameters, elt);
-            
-            console.log(encoded_parameters);
+            let encoded_parameters = encodeObject(elt);
 
-            return encoded_parameters;
+            return JSON.stringify(encoded_parameters);
         }
     });
-
-    function encodingAlgorithm(params, elt) {
-      const data = {};
-      const elements = elt.querySelectorAll("[name]");
-      
-      for (let i = 0; i < elements.length; i++) {
-        const e = elements.item(i);
-        let attr = e.getAttribute("name");
-        let l = e.querySelectorAll("[name]").length
-
-        if (attr?.includes("[]")) { attr = attr.replace("[]", ""); data[attr] = encodeArray(e); }
-        else if (attr?.includes("{}")) { attr = attr.replace("{}", ""); data[attr] = encodeObject(e); }
-        else data[attr] = getValue(e);
-
-        i += l;
-      }
-
-      return JSON.stringify(data);
-    }
 
     function encodeArray(elem) {
       let res = []
