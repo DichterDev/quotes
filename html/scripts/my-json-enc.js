@@ -1,4 +1,5 @@
 // Heavily inspired by: https://github.com/Emtyloc/json-enc-custom/blob/main/index.html
+
 (function () {
     let api;
     htmx.defineExtension('my-json-enc', {
@@ -28,48 +29,68 @@
         }
     });
 
-    function encodingAlgorithm() {
-      const data = {}
-      const form = document.getElementsByTagName("form").item(0)
-      const children = form.querySelectorAll("[name]");
-      let parent = {}
-      children.forEach(c => {
-        let param = c.getAttribute("name");
-        if (param.includes("[]")) {
-          param = param.replace("[]", "");
-          data[`${param}`] = [];
-          parent["element"] = c;
-          parent["param"] = param;
-        } else if (parent.element !== undefined) {
-          if (parent.element.contains(c)) {
-            const _data = {}
-            _data[`${param}`] = getValue(c);
-            data[`${parent.param}`].push(_data); 
-          }
-        } else {
-          data[`${param}`] = getValue(c);
-        }
-      })
+    function encodingAlgorithm(params, elt) {
+      const data = {};
+      const elements = elt.querySelectorAll("[name]");
+      
+      for (let i = 0; i < elements.length; i++) {
+        const e = elements.item(i);
+        let attr = e.getAttribute("name");
+        let l = e.querySelectorAll("[name]").length
 
-      return JSON.stringify(data)
+        if (attr?.includes("[]")) { attr = attr.replace("[]", ""); data[attr] = encodeArray(e); }
+        else if (attr?.includes("{}")) { attr = attr.replace("{}", ""); data[attr] = encodeObject(e); }
+        else data[attr] = getValue(e);
+
+        i += l;
+      }
+
+      return JSON.stringify(data);
+    }
+
+    function encodeArray(elem) {
+      let res = []
+      let children = elem.querySelectorAll("[name]");
+
+      for (let i = 0; i < children.length; i++) {
+        const c = children.item(i);
+        let attr = c.getAttribute("name");
+        let l = c.querySelectorAll("[name]").length
+
+        if (attr?.includes("[]")) res.push(encodeArray(c));
+        else if (attr?.includes("{}")) res.push(encodeObject(c));
+        else { let obj = {}; obj[attr] = getValue(c); res.push(obj) } 
+
+        i += l;
+      }
+
+      return res
+    }
+
+    function encodeObject(elem) {
+      let res = {}
+      let children = elem.querySelectorAll("[name]");
+     
+      
+      for (let i = 0; i < children.length; i++) {
+        const c = children.item(i);
+        let attr = c.getAttribute("name");
+        let l = c.querySelectorAll("[name]").length
+
+        if (attr?.includes("[]")) { attr = attr.replace("[]", ""); res[attr] = encodeArray(c); }
+        else if (attr?.includes("{}")) { attr = attr.replace("{}", ""); res[attr] = encodeObject(c); }
+        else res[attr] = getValue(c);
+
+        i += l;
+      }
+
+      return res;
     }
 
     function getValue(element) {
-      const tagName = element.tagName.toLowerCase();
-      if (tagName === 'input') {
-        if (element.type === 'checkbox') {
-          return element.checked;
-        }
-        return element.value;
-      } else if (tagName === 'select') {
-        if (element.multiple) {
-          return Array.from(element.selectedOptions).map(option => option.value);
-        }
-        return element.value;
-      } else if (tagName === 'textarea') {
-        return element.value;
+      if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.tagName === 'SELECT') {
+          return element.value;
       }
-      // For other elements like <span> or <div>, return their text content
       return element.textContent.trim();
     }
 })()
